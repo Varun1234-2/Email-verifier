@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verifier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <h2>Bulk Email Verifier</h2>
+        <p class="subtitle">Paste a list of email addresses below (one per line):</p>
+        
+        <textarea id="emailInput" placeholder="test@example.com&#10;hello@world.com"></textarea>
+        <button id="checkBtn" onclick="checkEmails()">Check Emails</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        async function checkEmails() {
+            const input = document.getElementById('emailInput').value;
+            const resultsDiv = document.getElementById('results');
+            
+            // Split the text area by new lines to get an array of emails
+            const emails = input.split('\n').map(e => e.trim()).filter(e => e !== '');
+            
+            if (emails.length === 0) return;
+            resultsDiv.innerHTML = '<div class="loading">Checking... this may take a few seconds.</div>';
+
+            try {
+                // Send the emails to our Python backend
+                const response = await fetch('http://127.0.0.1:5000/check-emails', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ emails: emails })
+                });
+
+                const data = await response.json();
+                resultsDiv.innerHTML = ''; // Clear the "checking" text
+
+                // Display each result
+                data.forEach(item => {
+                    let cssClass = "";
+                    if (item.status === "likely to be delivered") cssClass = "delivered";
+                    if (item.status === "likely to bounce") cssClass = "bounce";
+                    if (item.status === "unknown") cssClass = "unknown";
+
+                    resultsDiv.innerHTML += `
+                        <div class="result-item ${cssClass}">
+                            <span class="email-text">${item.email}</span>
+                            <span class="status-badge">${item.status}</span>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                resultsDiv.innerHTML = '<div class="error">Error connecting to the backend.</div>';
+            }
+        }
+    </script>
+
+</body>
+</html>

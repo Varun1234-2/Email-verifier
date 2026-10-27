@@ -1,0 +1,137 @@
+/* 1. Reset and Base Setup: Gives us a clean slate */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Uses the system's default modern font */
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #f1f5f9;
+    color: #334155;
+    /* Perfectly center the card on the screen */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* 2. The Main Card Design */
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 32px;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #e2e8f0;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 24px;
+}
+
+/* 3. Input and Button Styling */
+textarea {
+    width: 100%;
+    height: 160px;
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* The blue glow when you click the text area */
+textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+button {
+    width: 100%;
+    margin-top: 16px;
+    background-color: #2563eb;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover { background-color: #1d4ed8; }
+button:active { transform: scale(0.98); }
+
+/* 4. Results Area and Dynamic Colors */
+#results {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* The pulsing animation while loading */
+.loading {
+    text-align: center;
+    color: #64748b;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .5; }
+}
+
+/* The structural layout for each individual result box */
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.email-text {
+    font-weight: 500;
+    color: #1e293b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status-badge {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* The 3 distinct color states applied by JavaScript */
+.delivered { background-color: #dcfce7; border-color: #bbf7d0; }
+.delivered .status-badge { color: #15803d; }
+
+.bounce { background-color: #fee2e2; border-color: #fecaca; }
+.bounce .status-badge { color: #b91c1c; }
+
+.unknown { background-color: #ffedd5; border-color: #fed7aa; }
+.unknown .status-badge { color: #c2410c; }
+
+.error { text-align: center; color: #ef4444; font-weight: 500; }
