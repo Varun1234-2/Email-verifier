@@ -31,7 +31,7 @@
 
             try {
                 // Send the emails to our Python backend
-                const response = await fetch('http://127.0.0.1:5000/check-emails', {
+                const response = await fetch('/check-emails', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ emails: emails })

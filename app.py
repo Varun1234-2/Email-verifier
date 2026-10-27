@@ -5,7 +5,7 @@ import dns.resolver
 import smtplib
 import concurrent.futures # This allows us to do multiple things at once!
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
 @app.route('/')
